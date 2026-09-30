@@ -1,0 +1,28 @@
+[project]
+name = "ytasty-crousty"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Garchilla", email = "dylan.king@ynov.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "bcrypt<4.1",
+    "fastapi>=0.141.1",
+    "ngrok>=1.7.0",
+    "passlib[bcrypt]>=1.7.4",
+    "psycopg2-binary>=2.9.13",
+    "pydantic>=2.13.5",
+    "pyjwt>=2.15.0",
+    "python-multipart>=0.0.32",
+    "sqlalchemy>=2.0.52",
+    "uvicorn>=0.52.4",
+]
+
+[project.scripts]
+ytasty-crousty = "ytasty_crousty:main"
+
+[build-system]
+requires = ["uv_build>=0.12.10,<0.13.0"]
+build-backend = "uv_build"
