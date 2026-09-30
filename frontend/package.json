@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@types/uuid": "^10.0.0",
+    "http": "^0.0.1-security",
+    "socket.io": "^4.8.4",
+    "uuid": "^14.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3"
+  }
+}
