@@ -1,19 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import { Provider } from 'react-redux';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import { store } from './store';
 import { theme } from './theme';
-import App from './App.tsx';
-// import { Provider } from 'react-redux';
-// import { store } from './store';
+import App from './App';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    {/* <Provider store={store}> */}
+    <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <CssBaseline /> {/* Réinitialise le CSS par défaut du navigateur */}
+        <CssBaseline />
         <App />
       </ThemeProvider>
-    {/* </Provider> */}
+    </Provider>
   </React.StrictMode>
 );

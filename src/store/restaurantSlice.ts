@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 import { api } from '../api/axios';
-import { Restaurant } from '../types/restaurant';
+import type { Restaurant } from '../types/restaurant';
 
 export const fetchRestaurants = createAsyncThunk(
   'restaurant/fetchRestaurants',
@@ -27,7 +27,7 @@ const restaurantSlice = createSlice({
   initialState,
   reducers: {
     setActiveRestaurant: (state, action: PayloadAction<string>) => {
-      const selected = state.list.find(r => r.id === action.payload || r.id.toString() === action.payload);
+      const selected = state.list.find(r => r.id === action.payload);
       if (selected) {
         state.activeRestaurant = selected;
       }
@@ -41,7 +41,6 @@ const restaurantSlice = createSlice({
       .addCase(fetchRestaurants.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.list = action.payload;
-        
         if (!state.activeRestaurant && action.payload.length > 0) {
           state.activeRestaurant = action.payload[0];
         }
