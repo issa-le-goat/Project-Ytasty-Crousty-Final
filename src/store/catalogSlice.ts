@@ -1,6 +1,7 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 import type { Product } from '../types/product';
 
+// On ajoute une boisson pour bien tester nos filtres !
 const mockProducts: Product[] = [
   { 
     id: '1', 
@@ -26,12 +27,19 @@ const mockProducts: Product[] = [
     category: 'Menu', 
     image_url: 'https://images.unsplash.com/photo-1594212202875-92576b5d259c?q=80&w=600&auto=format&fit=crop' 
   },
+  { 
+    id: '4', 
+    name: 'Coca-Cola Zero', 
+    description: 'Canette 33cl bien fraîche.', 
+    price: 2.50, 
+    category: 'Boisson', 
+    image_url: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=600&auto=format&fit=crop' 
+  }
 ];
 
 export const fetchProductsByRestaurant = createAsyncThunk(
   'catalog/fetchProducts',
   async (_restaurantId: string) => {
-    // Simulation d'une attente réseau de 500 millisecondes pour voir le spinner de chargement
     await new Promise((resolve) => setTimeout(resolve, 500));
     return mockProducts; 
   }
@@ -40,17 +48,28 @@ export const fetchProductsByRestaurant = createAsyncThunk(
 interface CatalogState {
   items: Product[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  searchTerm: string;
+  categoryFilter: string;
 }
 
 const initialState: CatalogState = {
   items: [],
   status: 'idle',
+  searchTerm: '',
+  categoryFilter: 'Tous', // Par défaut, on affiche tout
 };
 
 const catalogSlice = createSlice({
   name: 'catalog',
   initialState,
-  reducers: {},
+  reducers: {
+    setSearchTerm: (state, action: PayloadAction<string>) => {
+      state.searchTerm = action.payload;
+    },
+    setCategoryFilter: (state, action: PayloadAction<string>) => {
+      state.categoryFilter = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProductsByRestaurant.pending, (state) => {
@@ -66,4 +85,5 @@ const catalogSlice = createSlice({
   },
 });
 
+export const { setSearchTerm, setCategoryFilter } = catalogSlice.actions;
 export default catalogSlice.reducer;
