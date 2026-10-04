@@ -1,0 +1,69 @@
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import type { Product } from '../types/product';
+
+const mockProducts: Product[] = [
+  { 
+    id: '1', 
+    name: 'Le Crousty Classic', 
+    description: 'Pain brioché, steak haché 150g, cheddar affiné, salade, tomate, sauce crousty maison.', 
+    price: 8.90, 
+    category: 'Burger', 
+    image_url: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600&auto=format&fit=crop' 
+  },
+  { 
+    id: '2', 
+    name: 'Le Veggie Gourmand', 
+    description: 'Galette de légumes de saison, cheddar, avocat, oignons rouges caramélisés, sauce yaourt aux herbes.', 
+    price: 9.50, 
+    category: 'Burger', 
+    image_url: 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=600&auto=format&fit=crop' 
+  },
+  { 
+    id: '3', 
+    name: 'Menu Double Cheese', 
+    description: 'Double steak, double cheddar, accompagné de frites croustillantes et boisson au choix.', 
+    price: 13.50, 
+    category: 'Menu', 
+    image_url: 'https://images.unsplash.com/photo-1594212202875-92576b5d259c?q=80&w=600&auto=format&fit=crop' 
+  },
+];
+
+export const fetchProductsByRestaurant = createAsyncThunk(
+  'catalog/fetchProducts',
+  async (_restaurantId: string) => {
+    // Simulation d'une attente réseau de 500 millisecondes pour voir le spinner de chargement
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return mockProducts; 
+  }
+);
+
+interface CatalogState {
+  items: Product[];
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+}
+
+const initialState: CatalogState = {
+  items: [],
+  status: 'idle',
+};
+
+const catalogSlice = createSlice({
+  name: 'catalog',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProductsByRestaurant.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchProductsByRestaurant.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.items = action.payload;
+      })
+      .addCase(fetchProductsByRestaurant.rejected, (state) => {
+        state.status = 'failed';
+      });
+  },
+});
+
+export default catalogSlice.reducer;
