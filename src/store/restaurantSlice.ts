@@ -72,7 +72,6 @@ const restaurantSlice = createSlice({
       .addCase(fetchRestaurants.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.list = action.payload;
-        // On sélectionne automatiquement le premier restaurant de la liste au chargement
         if (!state.activeRestaurant && action.payload.length > 0) {
           state.activeRestaurant = action.payload[0];
         }

@@ -36,9 +36,7 @@ export const Catalog = () => {
 
   // --- LOGIQUE DE FILTRAGE ---
   const filteredItems = items.filter((product) => {
-    // Vérifie si le texte tapé correspond au nom du produit (insensible à la casse)
     const matchSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
-    // Vérifie si la catégorie correspond (ou si "Tous" est sélectionné)
     const matchCategory = categoryFilter === 'Tous' || product.category === categoryFilter;
     
     return matchSearch && matchCategory;
@@ -83,14 +81,35 @@ export const Catalog = () => {
       ) : (
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 3 }}>
           {filteredItems.map((product) => (
-            <Card key={product.id} sx={{ height: '100%', display: 'flex', flexDirection: 'column', borderRadius: 3, elevation: 3 }}>
-              <CardMedia
-                component="img"
-                height="200"
-                image={product.image_url}
-                alt={product.name}
-                sx={{ objectFit: 'cover' }}
-              />
+            <Card 
+              key={product.id} 
+              sx={{ 
+                height: '100%', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                borderRadius: 3, 
+                elevation: 3,
+                opacity: product.is_available ? 1 : 0.6 // Grise la carte si indisponible
+              }}
+            >
+              {/* Conteneur d'image avec positionnement pour le badge */}
+              <Box sx={{ position: 'relative' }}>
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={product.image_url}
+                  alt={product.name}
+                  sx={{ objectFit: 'cover', filter: product.is_available ? 'none' : 'grayscale(80%)' }}
+                />
+                {!product.is_available && (
+                  <Chip 
+                    label="Épuisé" 
+                    color="error" 
+                    sx={{ position: 'absolute', top: 10, right: 10, fontWeight: 'bold' }} 
+                  />
+                )}
+              </Box>
+
               <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
                   <Typography gutterBottom variant="h6" component="h2" sx={{ fontWeight: 'bold', lineHeight: 1.2 }}>
@@ -103,8 +122,14 @@ export const Catalog = () => {
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 3, flexGrow: 1 }}>
                   {product.description}
                 </Typography>
-                <Button variant="contained" color="primary" fullWidth sx={{ borderRadius: 2, fontWeight: 'bold', py: 1 }}>
-                  Ajouter au panier
+                <Button 
+                  variant="contained" 
+                  color={product.is_available ? "primary" : "inherit"}
+                  disabled={!product.is_available} 
+                  fullWidth 
+                  sx={{ borderRadius: 2, fontWeight: 'bold', py: 1 }}
+                >
+                  {product.is_available ? 'Ajouter au panier' : 'Indisponible'}
                 </Button>
               </CardContent>
             </Card>
