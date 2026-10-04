@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 import type { Restaurant } from '../types/restaurant';
 
-// Nos fausses données pour tester la sélection de restaurant
 const mockRestaurants: Restaurant[] = [
   { 
     id: '1', 

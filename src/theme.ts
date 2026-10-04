@@ -3,23 +3,23 @@ import { createTheme } from '@mui/material/styles';
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#D32F2F', // Rouge fast-food (ouvre l'appétit)
+      main: '#D32F2F',
     },
     secondary: {
-      main: '#FFC107', // Jaune/Orange gourmand
+      main: '#FFC107',
     },
     background: {
-      default: '#F5F5F5', // Fond gris très clair pour faire ressortir les cartes
+      default: '#F5F5F5',
     },
   },
   typography: {
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
     button: {
-      textTransform: 'none', // Empêche les boutons d'être en TOUT MAJUSCULES
+      textTransform: 'none',
       fontWeight: 600,
     },
   },
   shape: {
-    borderRadius: 12, // Boutons et cartes bien arrondis
+    borderRadius: 12,
   },
 });
