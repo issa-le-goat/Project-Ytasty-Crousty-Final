@@ -1,0 +1,89 @@
+import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
+import type { Product } from '../types/product';
+
+// On ajoute une boisson pour bien tester nos filtres !
+const mockProducts: Product[] = [
+  { 
+    id: '1', 
+    name: 'Le Crousty Classic', 
+    description: 'Pain brioché, steak haché 150g, cheddar affiné, salade, tomate, sauce crousty maison.', 
+    price: 8.90, 
+    category: 'Burger', 
+    image_url: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600&auto=format&fit=crop' 
+  },
+  { 
+    id: '2', 
+    name: 'Le Veggie Gourmand', 
+    description: 'Galette de légumes de saison, cheddar, avocat, oignons rouges caramélisés, sauce yaourt aux herbes.', 
+    price: 9.50, 
+    category: 'Burger', 
+    image_url: 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=600&auto=format&fit=crop' 
+  },
+  { 
+    id: '3', 
+    name: 'Menu Double Cheese', 
+    description: 'Double steak, double cheddar, accompagné de frites croustillantes et boisson au choix.', 
+    price: 13.50, 
+    category: 'Menu', 
+    image_url: 'https://images.unsplash.com/photo-1594212202875-92576b5d259c?q=80&w=600&auto=format&fit=crop' 
+  },
+  { 
+    id: '4', 
+    name: 'Coca-Cola Zero', 
+    description: 'Canette 33cl bien fraîche.', 
+    price: 2.50, 
+    category: 'Boisson', 
+    image_url: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=600&auto=format&fit=crop' 
+  }
+];
+
+export const fetchProductsByRestaurant = createAsyncThunk(
+  'catalog/fetchProducts',
+  async (_restaurantId: string) => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return mockProducts; 
+  }
+);
+
+interface CatalogState {
+  items: Product[];
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  searchTerm: string;
+  categoryFilter: string;
+}
+
+const initialState: CatalogState = {
+  items: [],
+  status: 'idle',
+  searchTerm: '',
+  categoryFilter: 'Tous', // Par défaut, on affiche tout
+};
+
+const catalogSlice = createSlice({
+  name: 'catalog',
+  initialState,
+  reducers: {
+    setSearchTerm: (state, action: PayloadAction<string>) => {
+      state.searchTerm = action.payload;
+    },
+    setCategoryFilter: (state, action: PayloadAction<string>) => {
+      state.categoryFilter = action.payload;
+    }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProductsByRestaurant.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchProductsByRestaurant.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.items = action.payload;
+      })
+      .addCase(fetchProductsByRestaurant.rejected, (state) => {
+        state.status = 'failed';
+      });
+  },
+});
+
+export const { setSearchTerm, setCategoryFilter } = catalogSlice.actions;
+export default catalogSlice.reducer;
