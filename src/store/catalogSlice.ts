@@ -8,7 +8,7 @@ const mockProducts: Product[] = [
     description: 'Pain brioché, steak haché 150g, cheddar affiné, salade, tomate, sauce crousty maison.', 
     price: 8.90, 
     category: 'Burger', 
-    image_url: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600&auto=format&fit=crop',
+    image_url: 'https://www.mijoter.fr/wp-content/uploads/tasty-crousty-maison-1024x682.jpg',
     is_available: true
   },
   { 
@@ -26,7 +26,7 @@ const mockProducts: Product[] = [
     description: 'Double steak, double cheddar, accompagné de frites croustillantes et boisson au choix.', 
     price: 13.50, 
     category: 'Menu', 
-    image_url: 'https://images.unsplash.com/photo-1594212202875-92576b5d259c?q=80&w=600&auto=format&fit=crop',
+    image_url: 'https://steaknsmash.com/wp-content/uploads/2026/09/menu-double-cheese-steaknsmash-palaiseau-1-900x900.webp',
     is_available: true
   },
   { 
@@ -35,7 +35,7 @@ const mockProducts: Product[] = [
     description: 'Canette 33cl bien fraîche.', 
     price: 2.50, 
     category: 'Boisson', 
-    image_url: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=600&auto=format&fit=crop',
+    image_url: 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQwKZWI8A2t_dUOEL_Np2LNfnWuH3aKyeq26hdFOz1VBZVrJlcq43EzglRF5OaMD8lb6d_gqERkpI4OkkhHe-52pR_xkIY80JjK0om7DHIkRvD738eRZtzsWA',
     is_available: true
   }
 ];

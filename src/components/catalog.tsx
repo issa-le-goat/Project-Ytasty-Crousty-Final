@@ -3,7 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Card, CardMedia, CardContent, Typography, Button, Box, CircularProgress, TextField, Chip } from '@mui/material';
 import type { RootState, AppDispatch } from '../store';
 import { fetchProductsByRestaurant, setSearchTerm, setCategoryFilter } from '../store/catalogSlice';
+import { addToCart } from '../store/cartSlice';
 
+// Nos catégories disponibles
 const CATEGORIES = ['Tous', 'Menu', 'Burger', 'Boisson'];
 
 export const Catalog = () => {
@@ -33,6 +35,7 @@ export const Catalog = () => {
     );
   }
 
+  // --- LOGIQUE DE FILTRAGE ---
   const filteredItems = items.filter((product) => {
     const matchSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchCategory = categoryFilter === 'Tous' || product.category === categoryFilter;
@@ -46,6 +49,7 @@ export const Catalog = () => {
         Menu de {activeRestaurant.city}
       </Typography>
       
+      {/* BARRE DE RECHERCHE ET FILTRES */}
       <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 3, mb: 4, alignItems: { xs: 'stretch', sm: 'center' } }}>
         <TextField 
           label="Rechercher un produit..." 
@@ -70,6 +74,7 @@ export const Catalog = () => {
         </Box>
       </Box>
 
+      {/* RÉSULTATS */}
       {filteredItems.length === 0 ? (
         <Typography variant="body1" color="text.secondary" align="center" sx={{ mt: 4 }}>
           Aucun produit ne correspond à votre recherche.
@@ -85,7 +90,7 @@ export const Catalog = () => {
                 flexDirection: 'column', 
                 borderRadius: 3, 
                 elevation: 3,
-                opacity: product.is_available ? 1 : 0.6 // Grise la carte si indisponible
+                opacity: product.is_available ? 1 : 0.6 
               }}
             >
               <Box sx={{ position: 'relative' }}>
@@ -122,6 +127,7 @@ export const Catalog = () => {
                   color={product.is_available ? "primary" : "inherit"}
                   disabled={!product.is_available} 
                   fullWidth 
+                  onClick={() => dispatch(addToCart(product))}
                   sx={{ borderRadius: 2, fontWeight: 'bold', py: 1 }}
                 >
                   {product.is_available ? 'Ajouter au panier' : 'Indisponible'}
