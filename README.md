@@ -1,32 +1,67 @@
-# React + TypeScript + Vite
+# Ytasty Crousty
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Application de commande pour restaurants, avec catalogue client, panier et espace de gestion pour l'équipe. Le frontend est développé avec React, TypeScript et Vite ; l'API utilise FastAPI et PostgreSQL.
 
-Currently, two official plugins are available:
+## Fonctionnalités
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Sélection d'un restaurant et consultation de sa carte.
+- Panier et parcours de commande côté client.
+- Connexion administrateur et tableau de suivi cuisine.
+- API pour gérer les utilisateurs, restaurants, produits et commandes.
 
-## React Compiler
+## Prérequis
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Node.js et npm.
+- Docker Desktop démarré avec le moteur Linux disponible.
 
-## Expanding the Oxlint configuration
+## Démarrer l'application
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+Depuis le dossier `Project-Ytasty-Crousty-Final`, lance le frontend dans un terminal :
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```powershell
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Ouvre l'adresse indiquée par Vite, généralement `http://localhost:5173`. Si ce port est déjà utilisé, Vite choisira le suivant, par exemple `5174`.
+
+Dans un autre terminal, démarre l'API et PostgreSQL depuis la racine du projet :
+
+```powershell
+docker compose -f .\backend\docker-compose.yml up --build
+```
+
+L'API est disponible sur `http://localhost:8000`, et sa documentation interactive sur `http://localhost:8000/docs`.
+
+Pour arrêter les services, utilise `Ctrl+C`. Pour les arrêter depuis un autre terminal :
+
+```powershell
+docker compose -f .\backend\docker-compose.yml down
+```
+
+## Compte administrateur de développement
+
+Les identifiants de démonstration sont :
+
+- Identifiant : `admin`
+- Mot de passe : `ytasty2026`
+
+Le backend crée ce compte au démarrage de l'environnement Docker de développement et stocke son mot de passe sous forme de hash. Le frontend principal utilise aussi ces identifiants pour sa connexion de démonstration.
+
+**Ces identifiants sont réservés au développement.** Le compte du frontend de démonstration est défini côté client et ne constitue pas une authentification adaptée à la production. Change les identifiants et configure une authentification serveur avant tout déploiement public.
+
+## Structure du dépôt
+
+```text
+backend/   API FastAPI, modèles SQLAlchemy et configuration Docker
+frontend/  Interface Back-Office distincte pour le personnel
+src/       Application React principale, catalogue et espace client/admin
+public/    Ressources statiques
+```
+
+## Commandes utiles
+
+```powershell
+npm run build
+npm run lint
+```

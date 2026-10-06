@@ -24,8 +24,8 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/ytasty_db
       - SEED_DEV_ADMIN=true
-      - DEV_ADMIN_USERNAME=lucarthur
-      - DEV_ADMIN_PASSWORD=prime
+      - DEV_ADMIN_USERNAME=admin
+      - DEV_ADMIN_PASSWORD=ytasty2026
     depends_on:
       db:
         condition: service_healthy
