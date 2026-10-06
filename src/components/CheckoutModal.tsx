@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box, ToggleButton, ToggleButtonGroup, CircularProgress, Stepper, Step, StepLabel } from '@mui/material';
 import type { RootState, AppDispatch } from '../store';
 import { closeCheckout, setDiningOption, submitOrder, advanceStep } from '../store/orderSlice';
@@ -15,13 +15,11 @@ export const CheckoutModal = () => {
     if (diningOption) {
       await dispatch(submitOrder({ type: diningOption, items: cartItems }));
       dispatch(clearCart());
-      // On ferme le panier en arrière-plan pour que ça soit plus propre
       dispatch(toggleCart());
     }
   };
 
   const handleClose = () => {
-    // Empêche la fermeture si la commande est en cours d'envoi
     if (status !== 'submitting') {
       dispatch(closeCheckout());
     }
@@ -69,7 +67,6 @@ export const CheckoutModal = () => {
               ))}
             </Stepper>
             
-            {/* Bouton temporaire pour simuler la cuisine qui avance la commande (remplacera les WebSockets pour l'instant) */}
             {activeStep < 2 && (
               <Button 
                 variant="text" 
@@ -82,7 +79,7 @@ export const CheckoutModal = () => {
               </Button>
             )}
             {activeStep === 2 && (
-              <Typography color="success.main" variant="h6" fontWeight="bold" align="center" sx={{ mt: 4 }}>
+              <Typography color="success.main" variant="h6" align="center" sx={{ mt: 4, fontWeight: 'bold' }}>
                 Bon appétit ! 🍔
               </Typography>
             )}

@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/tool
 // Simulation de l'envoi de la commande vers le back-end (POST /orders)
 export const submitOrder = createAsyncThunk(
   'order/submitOrder',
-  async (orderData: { type: string, items: any[] }) => {
+  async (_orderData: { type: string, items: any[] }) => {
     await new Promise((resolve) => setTimeout(resolve, 1500)); 
     return Math.floor(Math.random() * 10000); // Retourne un faux numéro de ticket
   }
