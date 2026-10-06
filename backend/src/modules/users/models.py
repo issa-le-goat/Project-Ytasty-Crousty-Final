@@ -3,7 +3,7 @@ import enum
 from sqlalchemy import Column, Integer, String, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 
-from ytasty_crousty.database import Base
+from src.database import Base
 
 class RoleEnum(str, enum.Enum):
     admin="admin"

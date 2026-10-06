@@ -210,7 +210,7 @@ La base de données est automatiquement accessible au service API lorsqu'elle es
 Le fichier :
 
 ```text
-src/ytasty_crousty/seed.py
+src/seed.py
 ```
 
 permet d'initialiser la base de données.
@@ -220,6 +220,8 @@ Il crée notamment plusieurs restaurants de démonstration :
 * Ytasty Crousty Aix
 * Ytasty Crousty Paris
 * Ytasty Crousty Lyon
+
+En environnement Docker de développement, l'API crée également le compte administrateur `lucarthur` avec le mot de passe `prime`. Le mot de passe est stocké sous forme de hash. Ces identifiants sont réservés au développement.
 
 Un compte administrateur initial est également prévu pour le développement.
 

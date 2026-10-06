@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import './app.css'
+import { Link } from 'react-router-dom'
 import {
 	Alert,
 	Avatar,
@@ -119,7 +121,10 @@ function App() {
 				<main className="main-panel">
 					<header className="topbar">
 						<div><span className="topbar-kicker">BACK-OFFICE / {view === 'orders' ? 'CUISINE' : 'CATALOGUE'}</span><h1>{view === 'orders' ? 'Tableau de cuisine' : 'Gestion de la carte'}</h1></div>
-						<div className="topbar-badge"><span className="live-dot" /> Opérationnel</div>
+						<div className="topbar-actions">
+							<Button component={Link} to="/catalogue" size="small" variant="outlined">Site client</Button>
+							<div className="topbar-badge"><span className="live-dot" /> Opérationnel</div>
+						</div>
 					</header>
 					{view === 'orders'
 						? <KitchenDashboard user={user} onNotify={setNotice} />

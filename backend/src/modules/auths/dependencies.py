@@ -3,9 +3,9 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from jwt.exceptions import PyJWTError
 
-from ytasty_crousty.database import get_db
-from ytasty_crousty.modules.users.models import User
-from ytasty_crousty.modules.auths.jwt import decode_access_token
+from src.database import get_db
+from src.modules.users.models import User
+from src.modules.auths.jwt import decode_access_token
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
