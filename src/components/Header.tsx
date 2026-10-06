@@ -1,5 +1,6 @@
-import { AppBar, Toolbar, Typography, Select, MenuItem, Chip, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Select, MenuItem, Chip, Box, Button } from '@mui/material';
 import type { SelectChangeEvent } from '@mui/material/Select';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState, AppDispatch } from '../store';
 import { setActiveRestaurant } from '../store/restaurantSlice';
@@ -19,6 +20,9 @@ export const Header = () => {
           🍔 Ytasty Crousty
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+          <Button component={Link} to="/" size="small" variant="outlined">
+            Espace équipe
+          </Button>
           {activeRestaurant && (
             <Chip 
               label={activeRestaurant.is_open ? 'Ouvert' : 'Fermé'} 

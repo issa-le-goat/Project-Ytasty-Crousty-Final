@@ -2,7 +2,7 @@ import enum
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, Numeric, DateTime, ForeignKey, Enum
 from sqlalchemy.orm import relationship
-from ytasty_crousty.database import Base
+from src.database import Base
 
 class OrderStatusEnum(str, enum.Enum):
     pending = "pending"

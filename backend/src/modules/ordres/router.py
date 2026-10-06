@@ -3,12 +3,12 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 import uuid
 
-from ytasty_crousty.database import get_db
-from ytasty_crousty.modules.ordres.models import Order, OrderItem
-from ytasty_crousty.modules.restaurants.models import Restaurant
-from ytasty_crousty.modules.products.models import Product
-from ytasty_crousty.modules.ordres.schemas import OrderCreate, OrderResponse, OrderStatusUpdate
-from ytasty_crousty.modules.auths.dependencies import allow_staff_admin_direction
+from src.database import get_db
+from src.modules.ordres.models import Order, OrderItem
+from src.modules.restaurants.models import Restaurant
+from src.modules.products.models import Product
+from src.modules.ordres.schemas import OrderCreate, OrderResponse, OrderStatusUpdate
+from src.modules.auths.dependencies import allow_staff_admin_direction
 
 router = APIRouter(tags=["Orders"])
 

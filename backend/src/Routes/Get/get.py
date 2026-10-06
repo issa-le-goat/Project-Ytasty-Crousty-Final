@@ -3,17 +3,17 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 
 # --- Import de la base de données ---
-from ytasty_crousty.database import get_db
+from src.database import get_db
 
 # --- Imports des Modèles et Schémas (à vérifier selon vos noms de classes exacts) ---
-from ytasty_crousty.modules.restaurants.models import Restaurant
-from ytasty_crousty.modules.restaurants.schemas import RestaurantResponse
+from src.modules.restaurants.models import Restaurant
+from src.modules.restaurants.schemas import RestaurantResponse
 
-from ytasty_crousty.modules.products.models import Product
-from ytasty_crousty.modules.products.schemas import ProductResponse
+from src.modules.products.models import Product
+from src.modules.products.schemas import ProductResponse
 
-from ytasty_crousty.modules.ordres.models import Order
-from ytasty_crousty.modules.ordres.schemas import OrderResponse
+from src.modules.ordres.models import Order
+from src.modules.ordres.schemas import OrderResponse
 
 # Initialisation du routeur
 router = APIRouter(tags=["Gets"])

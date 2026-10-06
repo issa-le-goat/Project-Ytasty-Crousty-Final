@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Boolean, Numeric, ForeignKey, JSON
 from sqlalchemy.orm import relationship
 
-from ytasty_crousty.database import Base
+from src.database import Base
 
 class Product(Base):
     __tablename__ = "products"

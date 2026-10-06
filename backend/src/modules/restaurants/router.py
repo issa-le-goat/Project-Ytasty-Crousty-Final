@@ -2,10 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 
-from ytasty_crousty.database import get_db
-from ytasty_crousty.modules.restaurants.models import Restaurant
-from ytasty_crousty.modules.restaurants.schemas import RestaurantResponse, RestaurantUpdate, RestaurantAvailability
-from ytasty_crousty.modules.auths.dependencies import allow_admin
+from src.database import get_db
+from src.modules.restaurants.models import Restaurant
+from src.modules.restaurants.schemas import RestaurantResponse, RestaurantUpdate, RestaurantAvailability
+from src.modules.auths.dependencies import allow_admin
 
 router = APIRouter(prefix="/restaurants", tags=["Restaurants"])
 

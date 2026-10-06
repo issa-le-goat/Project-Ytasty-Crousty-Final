@@ -2,10 +2,10 @@ from fastapi import APIRouter, Depends, Query, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
-from ytasty_crousty.database import get_db
-from ytasty_crousty.modules.products.models import Product
-from ytasty_crousty.modules.products.schemas import ProductResponse, ProductCreate, ProductAvailability
-from ytasty_crousty.modules.auths.dependencies import allow_staff_admin_direction
+from src.database import get_db
+from src.modules.products.models import Product
+from src.modules.products.schemas import ProductResponse, ProductCreate, ProductAvailability
+from src.modules.auths.dependencies import allow_staff_admin_direction
 
 router = APIRouter(prefix="/products", tags=["Products"])
 

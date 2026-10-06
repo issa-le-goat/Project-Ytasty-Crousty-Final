@@ -1,12 +1,21 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Box, Container } from '@mui/material';
+import { Box, CircularProgress, Container } from '@mui/material';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Catalog } from './components/catalog';
 import { fetchRestaurants } from './store/restaurantSlice';
 import type { AppDispatch } from './store';
 
-export const App = () => {
+const BackOffice = lazy(() => import('../frontend/src/App'));
+
+const BackOfficePage = () => (
+  <Suspense fallback={<Box sx={{ display: 'grid', minHeight: '100vh', placeItems: 'center' }}><CircularProgress aria-label="Chargement du back-office" /></Box>}>
+    <BackOffice />
+  </Suspense>
+);
+
+const CatalogPage = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -22,5 +31,14 @@ export const App = () => {
     </Box>
   );
 };
+
+export const App = () => (
+  <Routes>
+    <Route path="/" element={<BackOfficePage />} />
+    <Route path="/backoffice/*" element={<BackOfficePage />} />
+    <Route path="/catalogue" element={<CatalogPage />} />
+    <Route path="*" element={<Navigate to="/" replace />} />
+  </Routes>
+);
 
 export default App;
