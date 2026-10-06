@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box, ToggleButton, ToggleButtonGroup, CircularProgress, Stepper, Step, StepLabel } from '@mui/material';
 import type { RootState, AppDispatch } from '../store';
 import { closeCheckout, setDiningOption, submitOrder, advanceStep } from '../store/orderSlice';
 import { clearCart, toggleCart } from '../store/cartSlice';
+import { socket } from '../api/socket'; // Ajout de l'import Socket.io
 
 const STEPS = ['En attente de validation', 'En préparation', 'Prêt à être retiré'];
 
@@ -24,6 +26,28 @@ export const CheckoutModal = () => {
       dispatch(closeCheckout());
     }
   };
+
+  // --- LOGIQUE TEMPS RÉEL SOCKET.IO ---
+  useEffect(() => {
+    // Si la commande est validée, on se connecte aux WebSockets
+    if (status === 'succeeded' && orderNumber) {
+      socket.connect();
+
+      // On écoute l'événement 'order_updated' envoyé par la cuisine (l'Étudiant 3)
+      socket.on('order_updated', (data: { id: number, step: number }) => {
+        if (data.id === orderNumber) {
+          // Si c'est notre commande, on fait avancer le Stepper
+          dispatch(advanceStep());
+        }
+      });
+
+      // Nettoyage à la fermeture
+      return () => {
+        socket.off('order_updated');
+        socket.disconnect();
+      };
+    }
+  }, [status, orderNumber, dispatch]);
 
   return (
     <Dialog open={isCheckoutOpen} onClose={handleClose} maxWidth="sm" fullWidth>
@@ -67,6 +91,7 @@ export const CheckoutModal = () => {
               ))}
             </Stepper>
             
+            {/* Le bouton manuel reste là en attendant que le back-end de l'équipe soit terminé */}
             {activeStep < 2 && (
               <Button 
                 variant="text" 
