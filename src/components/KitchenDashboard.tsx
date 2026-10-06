@@ -13,7 +13,6 @@ export const KitchenDashboard = () => {
   const { allOrders } = useSelector((state: RootState) => state.order);
   const { activeRestaurant } = useSelector((state: RootState) => state.restaurant);
 
-  // Filtre crucial : on ne garde que les commandes du restaurant actif
   const restaurantOrders = allOrders.filter(o => o.restaurantId === activeRestaurant?.id);
   const pendingOrders = restaurantOrders.filter(o => o.status === 'pending');
   const preparingOrders = restaurantOrders.filter(o => o.status === 'preparing');

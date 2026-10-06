@@ -5,7 +5,6 @@ import type { RootState, AppDispatch } from '../store';
 import { fetchProductsByRestaurant, setSearchTerm, setCategoryFilter } from '../store/catalogSlice';
 import { addToCart } from '../store/cartSlice';
 
-// Nos catégories disponibles
 const CATEGORIES = ['Tous', 'Menu', 'Burger', 'Boisson'];
 
 export const Catalog = () => {
@@ -35,7 +34,6 @@ export const Catalog = () => {
     );
   }
 
-  // --- LOGIQUE DE FILTRAGE ---
   const filteredItems = items.filter((product) => {
     const matchSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchCategory = categoryFilter === 'Tous' || product.category === categoryFilter;
@@ -49,7 +47,6 @@ export const Catalog = () => {
         Menu de {activeRestaurant.city}
       </Typography>
       
-      {/* BARRE DE RECHERCHE ET FILTRES */}
       <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 3, mb: 4, alignItems: { xs: 'stretch', sm: 'center' } }}>
         <TextField 
           label="Rechercher un produit..." 
@@ -74,7 +71,6 @@ export const Catalog = () => {
         </Box>
       </Box>
 
-      {/* RÉSULTATS */}
       {filteredItems.length === 0 ? (
         <Typography variant="body1" color="text.secondary" align="center" sx={{ mt: 4 }}>
           Aucun produit ne correspond à votre recherche.

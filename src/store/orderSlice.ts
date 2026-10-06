@@ -14,7 +14,7 @@ const initialState = {
   diningOption: null as 'sur_place' | 'a_emporter' | null,
   activeStep: 0,
   currentOrderId: null as number | null,
-  allOrders: [] as Order[], // Fausse BDD des commandes
+  allOrders: [] as Order[],
 };
 
 const orderSlice = createSlice({

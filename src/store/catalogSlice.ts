@@ -40,7 +40,6 @@ const catalogSlice = createSlice({
     setCategoryFilter: (state, action: PayloadAction<string>) => {
       state.categoryFilter = action.payload;
     },
-    // NOUVEAU : Pour l'écran d'administration
     toggleAvailability: (state, action: PayloadAction<string>) => {
       const product = state.items.find(p => p.id === action.payload);
       if (product) {

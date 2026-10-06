@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  // À modifier selon le port que tu as choisi Issa
   baseURL: 'http://localhost:8000/api', 
   
   timeout: 5000, 

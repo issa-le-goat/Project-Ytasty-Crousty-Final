@@ -36,7 +36,6 @@ export const Header = () => {
             </Select>
           </FormControl>
 
-          {/* BOUTONS DE CONNEXION / PROFIL */}
           {!isAuthenticated ? (
             <Button color="inherit" onClick={() => dispatch(openAuthModal())} sx={{ fontWeight: 'bold' }}>
               Connexion
@@ -48,7 +47,6 @@ export const Header = () => {
             </Box>
           )}
 
-          {/* BOUTON STAFF (Uniquement si l'utilisateur connecté est un admin) */}
           {isAuthenticated && user?.role === 'admin' && (
             <Button 
               color="inherit" 

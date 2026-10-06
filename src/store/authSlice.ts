@@ -3,9 +3,9 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   isAuthenticated: false,
   user: null as any,
-  isAuthModalOpen: false, // Contrôle la fenêtre de connexion globale
+  isAuthModalOpen: false,
   usersDb: [
-    { username: 'admin', password: 'ytasty2026', role: 'admin' } // Ton compte admin restauré
+    { username: 'admin', password: 'ytasty2026', role: 'admin' }
   ],
   error: null as string | null
 };
@@ -25,7 +25,7 @@ const authSlice = createSlice({
         state.usersDb.push(newUser);
         state.user = newUser;
         state.isAuthenticated = true;
-        state.isAuthModalOpen = false; // Ferme la fenêtre
+        state.isAuthModalOpen = false;
         state.error = null;
       }
     },
@@ -34,7 +34,7 @@ const authSlice = createSlice({
       if (user) {
         state.user = user;
         state.isAuthenticated = true;
-        state.isAuthModalOpen = false; // Ferme la fenêtre
+        state.isAuthModalOpen = false;
         state.error = null;
       } else {
         state.error = "Identifiants incorrects.";
