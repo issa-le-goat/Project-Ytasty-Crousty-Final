@@ -1,28 +1,20 @@
-import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-// Simulation de l'envoi de la commande vers le back-end (POST /orders)
-export const submitOrder = createAsyncThunk(
-  'order/submitOrder',
-  async (_orderData: { type: string, items: any[] }) => {
-    await new Promise((resolve) => setTimeout(resolve, 1500)); 
-    return Math.floor(Math.random() * 10000); // Retourne un faux numéro de ticket
-  }
-);
-
-interface OrderState {
-  isCheckoutOpen: boolean;
-  diningOption: 'sur_place' | 'a_emporter' | null;
-  status: 'idle' | 'submitting' | 'succeeded';
-  orderNumber: number | null;
-  activeStep: number; // 0: En attente, 1: Préparation, 2: Prêt
+export interface Order {
+  id: number;
+  restaurantId: string;
+  customerName: string;
+  type: string;
+  items: any[];
+  status: 'pending' | 'preparing' | 'ready';
 }
 
-const initialState: OrderState = {
+const initialState = {
   isCheckoutOpen: false,
-  diningOption: null,
-  status: 'idle',
-  orderNumber: null,
+  diningOption: null as 'sur_place' | 'a_emporter' | null,
   activeStep: 0,
+  currentOrderId: null as number | null,
+  allOrders: [] as Order[], // Fausse BDD des commandes
 };
 
 const orderSlice = createSlice({
@@ -31,9 +23,9 @@ const orderSlice = createSlice({
   reducers: {
     openCheckout: (state) => {
       state.isCheckoutOpen = true;
-      state.status = 'idle';
+      state.diningOption = null;
+      state.currentOrderId = null;
       state.activeStep = 0;
-      state.orderNumber = null;
     },
     closeCheckout: (state) => {
       state.isCheckoutOpen = false;
@@ -41,22 +33,35 @@ const orderSlice = createSlice({
     setDiningOption: (state, action: PayloadAction<'sur_place' | 'a_emporter'>) => {
       state.diningOption = action.payload;
     },
-    // Action manuelle pour simuler l'avancement de la cuisine (remplacera Socket.io plus tard)
-    advanceStep: (state) => {
-      if (state.activeStep < 2) state.activeStep += 1;
+    placeOrder: (state, action: PayloadAction<{ restaurantId: string; customerName: string; items: any[] }>) => {
+      const newOrder: Order = {
+        id: Date.now(),
+        restaurantId: action.payload.restaurantId,
+        customerName: action.payload.customerName,
+        type: state.diningOption!,
+        items: action.payload.items,
+        status: 'pending'
+      };
+      state.allOrders.push(newOrder);
+      state.currentOrderId = newOrder.id;
+    },
+    updateOrderStatus: (state, action: PayloadAction<{ orderId: number; status: 'pending' | 'preparing' | 'ready' }>) => {
+      const order = state.allOrders.find(o => o.id === action.payload.orderId);
+      if (order) order.status = action.payload.status;
+    },
+    // Remplace les WebSockets en lisant l'état local
+    syncClientStep: (state) => {
+      if (state.currentOrderId) {
+        const order = state.allOrders.find(o => o.id === state.currentOrderId);
+        if (order) {
+          if (order.status === 'pending') state.activeStep = 0;
+          else if (order.status === 'preparing') state.activeStep = 1;
+          else if (order.status === 'ready') state.activeStep = 2;
+        }
+      }
     }
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(submitOrder.pending, (state) => {
-        state.status = 'submitting';
-      })
-      .addCase(submitOrder.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.orderNumber = action.payload;
-      });
-  },
+  }
 });
 
-export const { openCheckout, closeCheckout, setDiningOption, advanceStep } = orderSlice.actions;
+export const { openCheckout, closeCheckout, setDiningOption, placeOrder, updateOrderStatus, syncClientStep } = orderSlice.actions;
 export default orderSlice.reducer;

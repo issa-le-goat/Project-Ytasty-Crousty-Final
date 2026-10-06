@@ -2,42 +2,10 @@ import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/tool
 import type { Product } from '../types/product';
 
 const mockProducts: Product[] = [
-  { 
-    id: '1', 
-    name: 'Le Crousty Classic', 
-    description: 'Pain brioché, steak haché 150g, cheddar affiné, salade, tomate, sauce crousty maison.', 
-    price: 8.90, 
-    category: 'Burger', 
-    image_url: 'https://www.mijoter.fr/wp-content/uploads/tasty-crousty-maison-1024x682.jpg',
-    is_available: true
-  },
-  { 
-    id: '2', 
-    name: 'Le Veggie Gourmand', 
-    description: 'Galette de légumes de saison, cheddar, avocat, oignons rouges caramélisés, sauce yaourt aux herbes.', 
-    price: 9.50, 
-    category: 'Burger', 
-    image_url: 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=600&auto=format&fit=crop',
-    is_available: false 
-  },
-  { 
-    id: '3', 
-    name: 'Menu Double Cheese', 
-    description: 'Double steak, double cheddar, accompagné de frites croustillantes et boisson au choix.', 
-    price: 13.50, 
-    category: 'Menu', 
-    image_url: 'https://steaknsmash.com/wp-content/uploads/2026/09/menu-double-cheese-steaknsmash-palaiseau-1-900x900.webp',
-    is_available: true
-  },
-  { 
-    id: '4', 
-    name: 'Coca-Cola Zero', 
-    description: 'Canette 33cl bien fraîche.', 
-    price: 2.50, 
-    category: 'Boisson', 
-    image_url: 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQwKZWI8A2t_dUOEL_Np2LNfnWuH3aKyeq26hdFOz1VBZVrJlcq43EzglRF5OaMD8lb6d_gqERkpI4OkkhHe-52pR_xkIY80JjK0om7DHIkRvD738eRZtzsWA',
-    is_available: true
-  }
+  { id: '1', name: 'Le Crousty Classic', description: 'Pain brioché, steak haché 150g, cheddar affiné, salade, tomate, sauce crousty maison.', price: 8.90, category: 'Burger', image_url: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600&auto=format&fit=crop', is_available: true },
+  { id: '2', name: 'Le Veggie Gourmand', description: 'Galette de légumes de saison, cheddar, avocat, oignons rouges caramélisés, sauce yaourt aux herbes.', price: 9.50, category: 'Burger', image_url: 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=600&auto=format&fit=crop', is_available: false },
+  { id: '3', name: 'Menu Double Cheese', description: 'Double steak, double cheddar, accompagné de frites croustillantes et boisson au choix.', price: 13.50, category: 'Menu', image_url: 'https://images.unsplash.com/photo-1594212202875-92576b5d259c?q=80&w=600&auto=format&fit=crop', is_available: true },
+  { id: '4', name: 'Coca-Cola Zero', description: 'Canette 33cl bien fraîche.', price: 2.50, category: 'Boisson', image_url: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=600&auto=format&fit=crop', is_available: true }
 ];
 
 export const fetchProductsByRestaurant = createAsyncThunk(
@@ -71,6 +39,16 @@ const catalogSlice = createSlice({
     },
     setCategoryFilter: (state, action: PayloadAction<string>) => {
       state.categoryFilter = action.payload;
+    },
+    // NOUVEAU : Pour l'écran d'administration
+    toggleAvailability: (state, action: PayloadAction<string>) => {
+      const product = state.items.find(p => p.id === action.payload);
+      if (product) {
+        product.is_available = !product.is_available;
+      }
+    },
+    deleteProduct: (state, action: PayloadAction<string>) => {
+      state.items = state.items.filter(p => p.id !== action.payload);
     }
   },
   extraReducers: (builder) => {
@@ -88,5 +66,5 @@ const catalogSlice = createSlice({
   },
 });
 
-export const { setSearchTerm, setCategoryFilter } = catalogSlice.actions;
+export const { setSearchTerm, setCategoryFilter, toggleAvailability, deleteProduct } = catalogSlice.actions;
 export default catalogSlice.reducer;
